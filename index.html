@@ -3,37 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>currency converter</title>
+    <title>Currency Converter</title>
     <style>
+        /* General styles for the body */
         body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f4f4f4;
-}
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #e9ecef; /* Light grey background for a subtle contrast */
+        }
 
-.container {
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+        /* Container for the main content */
+        .container {
+            max-width: 600px; /* Max width of the container */
+            margin: auto; /* Center the container */
+            padding: 20px;
+            background: #ffffff; /* White background for the container */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Enhanced shadow for depth */
+            transition: box-shadow 0.3s ease; /* Smooth transition for hover effect */
+        }
 
-h1 {
-    text-align: center;
-}
+        /* Hover effect for the container */
+        .container:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
+        }
 
-#products {
-    margin-top: 20px;
-}
+        /* Centered heading style */
+        h1 {
+            text-align: center;
+            color: #333; /* Dark grey for the heading */
+            margin-bottom: 20px; /* Spacing below the heading */
+        }
 
+        /* Margin for products section */
+        #products {
+            margin-top: 20px;
+        }
+
+        /* Individual product styles */
+        .product {
+            margin-bottom: 20px; /* Spacing between products */
+            text-align: center; /* Centered text */
+            border: 1px solid #ddd; /* Light border around products */
+            border-radius: 5px; /* Rounded corners for products */
+            padding: 10px; /* Padding inside each product card */
+            background: #f8f9fa; /* Light background for products */
+            transition: transform 0.2s; /* Smooth scaling on hover */
+        }
+
+        /* Scale effect on hover for product cards */
+        .product:hover {
+            transform: scale(1.05); /* Slightly enlarge product card on hover */
+            border-color: #007bff; /* Change border color on hover */
+        }
+
+        /* Responsive image style */
+        .product img {
+            max-width: 100%; /* Image takes full width of the container */
+            height: auto; /* Maintains aspect ratio */
+            border-radius: 5px; /* Rounded corners for images */
+            margin-bottom: 10px; /* Spacing below the image */
+        }
+
+        /* Label and select styles */
+        label {
+            font-weight: bold; /* Bold label text */
+            margin-right: 10px; /* Spacing between label and select */
+        }
+
+        select {
+            padding: 5px; /* Padding inside the select dropdown */
+            border-radius: 5px; /* Rounded corners for select */
+            border: 1px solid #ccc; /* Light border */
+            background-color: #f8f9fa; /* Light background for select */
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>currency converter</h1>
+        <h1>Photo Frame Shop</h1>
         <div>
             <label for="currency">Select Currency:</label>
             <select id="currency">
@@ -42,45 +91,52 @@ h1 {
                 <option value="GBP">GBP</option>
             </select>
         </div>
-        <div id="products"></div>
+        <div id="products"></div> <!-- Products will be displayed here -->
     </div>
+
     <script>
+        // Array of products with id, name, price, and image URL
         const products = [
-    { id: 1, name: 'Product 1', price: 1000 }, // Price in INR
-    { id: 2, name: 'Product 2', price: 2000 },
-    { id: 3, name: 'Product 3', price: 1500 },
-];
+            { id: 1, name: 'Product 1', price: 1000, image: 'https://i.postimg.cc/SNb68yBb/1.png' },
+            { id: 2, name: 'Product 2', price: 2000, image: 'https://i.postimg.cc/jSsygMq8/2.png' },
+            { id: 3, name: 'Product 3', price: 1500, image: 'https://i.postimg.cc/qMc8xPrh/3.png' },
+        ];
 
-document.getElementById('currency').addEventListener('change', (event) => {
-    const currency = event.target.value;
-    displayProducts(currency);
-});
+        // Event listener for currency selection change
+        document.getElementById('currency').addEventListener('change', (event) => {
+            const currency = event.target.value; // Get selected currency
+            displayProducts(currency); // Display products with the selected currency
+        });
 
-function displayProducts(currency) {
-    const productsDiv = document.getElementById('products');
-    productsDiv.innerHTML = '';
+        // Function to display products with converted prices
+        function displayProducts(currency) {
+            const productsDiv = document.getElementById('products'); // Get products div
+            productsDiv.innerHTML = ''; // Clear previous products
 
-    products.forEach(product => {
-        let convertedPrice = product.price; // Default price in INR
+            // Loop through each product to display it
+            products.forEach(product => {
+                let convertedPrice = product.price; // Default price in INR
 
-        if (currency === 'USD') {
-            convertedPrice = (product.price * 0.012).toFixed(2); // Example conversion rate
-        } else if (currency === 'GBP') {
-            convertedPrice = (product.price * 0.010).toFixed(2); // Example conversion rate
+                // Convert price based on selected currency
+                if (currency === 'USD') {
+                    convertedPrice = (product.price * 0.012).toFixed(2); // Conversion to USD
+                } else if (currency === 'GBP') {
+                    convertedPrice = (product.price * 0.010).toFixed(2); // Conversion to GBP
+                }
+
+                // Create HTML structure for each product
+                productsDiv.innerHTML += `
+                    <div class="product">
+                        <img src="${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>Price: ${convertedPrice} ${currency}</p>
+                    </div>
+                `;
+            });
         }
 
-        productsDiv.innerHTML += `
-            <div>
-                <h3>${product.name}</h3>
-                <p>Price: ${convertedPrice} ${currency}</p>
-            </div>
-        `;
-    });
-}
-
-// Initial display
-displayProducts('INR');
-
+        // Initial display of products in default currency (INR)
+        displayProducts('INR');
     </script>
 </body>
 </html>
